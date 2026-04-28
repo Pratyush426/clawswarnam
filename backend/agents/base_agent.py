@@ -185,6 +185,10 @@ If you are a generalist, provide balanced, well-rounded output.
         user_prompt = f"Execute this task:\n{task_description}"
 
         try:
+            # Add small random jitter (0-500ms) to prevent absolute synchronization of API calls
+            import random
+            await asyncio.sleep(random.uniform(0, 0.5))
+            
             # 1. Execute via LLM
             output = await self._call_llm(system_prompt, user_prompt)
             

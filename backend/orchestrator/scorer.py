@@ -75,8 +75,9 @@ async def score_output(task: Dict[str, Any], output: str) -> float:
                     logger.warning(f"Anthropic scoring failed: {e}")
 
             if not score_str:
-                logger.warning("No LLM client for scoring. Returning default 0.5.")
-                return 0.5
+                logger.warning(f"All LLM clients failed on attempt {attempt+1}. Waiting 5s...")
+                await asyncio.sleep(5)
+                continue
                 
             # Parse the float
             score = float(score_str)
