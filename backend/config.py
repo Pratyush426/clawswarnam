@@ -18,6 +18,6 @@ class Config:
     # Swarm configuration
     NUM_AGENTS: int = int(os.getenv("NUM_AGENTS", "5"))
     ALPHA: float = float(os.getenv("ALPHA", "0.3"))
-    EPSILON: float = float(os.getenv("EPSILON", "0.2"))
+    EPSILON: float = float(os.getenv("EPSILON", "0.3"))
 
 config = Config()

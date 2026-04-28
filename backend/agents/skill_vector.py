@@ -140,7 +140,17 @@ def get_best_agent_for_skill(
     """
     if not agents_skill_vectors:
         raise ValueError("No agents provided for skill matching.")
-    return max(agents_skill_vectors, key=lambda aid: agents_skill_vectors[aid].get(skill_type, 0.0))
+    
+    # Calculate scores for all agents
+    scores = {aid: vec.get(skill_type, 0.0) for aid, vec in agents_skill_vectors.items()}
+    max_score = max(scores.values())
+    
+    # Find all agents that share the highest score (important for tie-breaking at startup)
+    best_agents = [aid for aid, score in scores.items() if score == max_score]
+    
+    # Return one at random from the best candidates
+    import random
+    return random.choice(best_agents)
 
 
 def composite_score(
