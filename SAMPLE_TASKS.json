@@ -1,0 +1,212 @@
+{
+  "collections": [
+    {
+      "name": "Basic Code Tasks",
+      "tasks": [
+        {
+          "id": "task_001",
+          "description": "Simple function implementation",
+          "payload": {
+            "task": "Write a Python function that calculates the factorial of a number. Include error handling and unit tests."
+          }
+        },
+        {
+          "id": "task_002",
+          "description": "Data structure with tests",
+          "payload": {
+            "task": "Implement a Stack data structure in Python with push, pop, and peek methods. Write comprehensive unit tests covering edge cases."
+          }
+        },
+        {
+          "id": "task_003",
+          "description": "Algorithm explanation and implementation",
+          "payload": {
+            "task": "Explain the quicksort algorithm step-by-step, implement it in Python, and provide a comparison with merge sort in terms of time complexity."
+          }
+        }
+      ]
+    },
+    {
+      "name": "API & Web Development",
+      "tasks": [
+        {
+          "id": "task_101",
+          "description": "REST API design",
+          "payload": {
+            "task": "Design a REST API for a TODO application. Include endpoint specifications, request/response schemas, error handling codes, and authentication strategy."
+          }
+        },
+        {
+          "id": "task_102",
+          "description": "Database design",
+          "payload": {
+            "task": "Design a database schema for an e-commerce platform. Include tables for users, products, orders, and reviews. Provide SQL CREATE statements and explain relationships."
+          }
+        },
+        {
+          "id": "task_103",
+          "description": "Authentication system",
+          "payload": {
+            "task": "Write a secure authentication module using JWT tokens. Include login, token refresh, and logout endpoints. Explain security best practices."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Machine Learning & AI",
+      "tasks": [
+        {
+          "id": "task_201",
+          "description": "ML concepts explanation",
+          "payload": {
+            "task": "Explain overfitting and underfitting in machine learning. Include examples, visualization descriptions, and techniques to prevent overfitting."
+          }
+        },
+        {
+          "id": "task_202",
+          "description": "Model building",
+          "payload": {
+            "task": "Build a simple linear regression model in Python using scikit-learn. Include data loading, model training, evaluation metrics, and visualization code."
+          }
+        },
+        {
+          "id": "task_203",
+          "description": "Deep learning architecture",
+          "payload": {
+            "task": "Explain how convolutional neural networks (CNNs) work. Include architecture components (convolution, pooling, activation), a simple implementation, and real-world applications."
+          }
+        }
+      ]
+    },
+    {
+      "name": "System Design & Architecture",
+      "tasks": [
+        {
+          "id": "task_301",
+          "description": "Microservices architecture",
+          "payload": {
+            "task": "Design a microservices architecture for a social media platform. Include service decomposition, API gateways, message queues, and deployment strategy."
+          }
+        },
+        {
+          "id": "task_302",
+          "description": "Caching strategy",
+          "payload": {
+            "task": "Design a caching strategy for a high-traffic e-commerce website. Compare Redis vs Memcached, explain cache invalidation strategies, and provide implementation code."
+          }
+        },
+        {
+          "id": "task_303",
+          "description": "Load balancing",
+          "payload": {
+            "task": "Explain different load balancing algorithms (round-robin, least connections, IP hash). Compare their trade-offs and recommend for different scenarios."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data Engineering",
+      "tasks": [
+        {
+          "id": "task_401",
+          "description": "ETL pipeline",
+          "payload": {
+            "task": "Design an ETL pipeline that ingests JSON logs, transforms them, and loads into a data warehouse. Include pseudocode and error handling strategy."
+          }
+        },
+        {
+          "id": "task_402",
+          "description": "Data quality",
+          "payload": {
+            "task": "Write a data quality validation framework. Include checks for missing values, duplicates, outliers, and schema validation. Provide Python implementation."
+          }
+        },
+        {
+          "id": "task_403",
+          "description": "Analytics queries",
+          "payload": {
+            "task": "Write SQL queries to analyze user behavior data. Include daily active users, retention rate, churn rate, and cohort analysis queries."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Complex Multi-Step Tasks",
+      "tasks": [
+        {
+          "id": "task_501",
+          "description": "Full stack project",
+          "payload": {
+            "task": "Create a complete blog application: 1) Backend API with authentication, 2) Database schema, 3) Frontend React components, 4) API documentation, 5) Deployment guide."
+          }
+        },
+        {
+          "id": "task_502",
+          "description": "Performance optimization",
+          "payload": {
+            "task": "Analyze and optimize this Python code: [includes nested loops and inefficient algorithms]. Profile the code, identify bottlenecks, implement improvements, and benchmark the results."
+          }
+        },
+        {
+          "id": "task_503",
+          "description": "Security audit",
+          "payload": {
+            "task": "Review this web application code for security vulnerabilities. Identify SQL injection risks, XSS vulnerabilities, CSRF tokens, authentication flaws, and provide remediation steps."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documentation & Analysis",
+      "tasks": [
+        {
+          "id": "task_601",
+          "description": "Technical documentation",
+          "payload": {
+            "task": "Write comprehensive technical documentation for a Python library. Include installation, usage examples, API reference, FAQ, and troubleshooting guide."
+          }
+        },
+        {
+          "id": "task_602",
+          "description": "Competitive analysis",
+          "payload": {
+            "task": "Analyze three competing products in the SaaS market. Create comparison matrix, identify pricing strategies, analyze strength/weaknesses, and recommend positioning."
+          }
+        },
+        {
+          "id": "task_603",
+          "description": "Research paper summary",
+          "payload": {
+            "task": "Summarize a machine learning research paper: explain key concepts, methodology, results, implications, and potential applications in industry."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Edge Cases & Stress Tests",
+      "tasks": [
+        {
+          "id": "task_701",
+          "description": "Very large task",
+          "payload": {
+            "task": "Create a comprehensive guide covering: 1) Distributed systems theory, 2) CAP theorem, 3) Consistency models, 4) Real-world case studies, 5) Implementation patterns. Make it encyclopedic."
+          }
+        },
+        {
+          "id": "task_702",
+          "description": "Controversial topic handling",
+          "payload": {
+            "task": "Discuss the trade-offs between security and privacy in web applications. Present multiple perspectives and provide a balanced analysis."
+          }
+        },
+        {
+          "id": "task_703",
+          "description": "Creative problem solving",
+          "payload": {
+            "task": "Design a system to detect and prevent fraud in real-time financial transactions. Include machine learning models, rule engines, and human review workflows."
+          }
+        }
+      ]
+    }
+  ]
+}

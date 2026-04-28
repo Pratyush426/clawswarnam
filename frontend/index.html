@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClawSwarm AI | Emergent Role Specialization</title>
+    
+    <!-- Fonts for Theme: Orbitron (Headings), Space Mono (Data/Code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+      :root {
+        --bg-color: #020408;
+        --text-color: #e2e8f0;
+        --accent-glow: rgba(255, 191, 0, 0.4);
+        --leader-color: #ffbf00; /* Amber/Gold */
+        --candidate-color: #00e5ff; /* Cyan */
+        --worker-color: #3b82f6; /* Blue */
+        --failed-color: #ef4444; /* Red */
+        --generalist-color: #94a3b8; /* Gray */
+        --specialist-color: #ffffff; /* Bright White */
+      }
+      
+      body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: 'Space Mono', monospace;
+        overflow: hidden;
+      }
+      
+      h1, h2, h3, h4, h5, h6, .brand {
+        font-family: 'Orbitron', sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      
+      /* Global scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05); 
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2); 
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.4); 
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" style="width: 100%; height: 100%;"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
