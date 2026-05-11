@@ -20,6 +20,8 @@ Developers must manually guess how many "researchers" or "coders" they need befo
 
 **The Gap:** No existing framework allows agents to learn and specialize over time based on actual performance.
 
+Demo video: https://drive.google.com/file/d/1yxHJ0fVAeA8BhFxJxjMnmYHmW2GtPcRj/view?usp=sharing
+
 ## Our Solution
 
 ClawSwarm AI introduces the **Emergent Role Specialization** algorithm. 
