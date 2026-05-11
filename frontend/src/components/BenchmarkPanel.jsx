@@ -1,116 +1,202 @@
 import React, { useEffect, useState } from 'react';
+import { BarChart3, TrendingUp, Clock, Shield } from 'lucide-react';
+
+const SYSTEMS = [
+  { key: 'clawswarm', label: 'ClawSwarm AI', color: '#ffbf00', glow: 'rgba(255,191,0,0.35)' },
+  { key: 'single_agent', label: 'Single Agent', color: '#64748b', glow: 'rgba(100,116,139,0.20)' },
+  { key: 'fixed_team', label: 'Fixed Team', color: '#475569', glow: 'rgba(71,85,105,0.20)' },
+];
+
+function MetricRow({ label, icon, unit, values, max, animate, lowerIsBetter = false }) {
+  return (
+    <div style={{ marginBottom: 22 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+        <span style={{ color: 'rgba(148,163,184,0.70)' }}>{icon}</span>
+        <span style={{ fontFamily: 'Orbitron', fontSize: '0.72rem', letterSpacing: '0.10em', color: 'rgba(226,232,240,0.80)', textTransform: 'uppercase' }}>
+          {label}
+        </span>
+        {lowerIsBetter && (
+          <span style={{ fontSize: '0.65rem', color: 'rgba(148,163,184,0.55)', marginLeft: 4 }}>↓ lower is better</span>
+        )}
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {SYSTEMS.map(({ key, label: sysLabel, color, glow }) => {
+          const raw = values[key];
+          const pct = lowerIsBetter
+            ? (1 - raw / max) * 100
+            : (raw / max) * 100;
+          const isWinner = lowerIsBetter
+            ? raw === Math.min(...Object.values(values))
+            : raw === Math.max(...Object.values(values));
+
+          return (
+            <div key={key} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              {/* Label */}
+              <div style={{ width: 96, flexShrink: 0 }}>
+                <div style={{ fontSize: '0.72rem', color: key === 'clawswarm' ? color : 'rgba(148,163,184,0.70)', fontWeight: key === 'clawswarm' ? 700 : 400, fontFamily: key === 'clawswarm' ? 'Orbitron' : 'Inter, sans-serif', letterSpacing: key === 'clawswarm' ? '0.04em' : 0 }}>
+                  {sysLabel}
+                </div>
+              </div>
+
+              {/* Bar track */}
+              <div style={{ flex: 1, height: 12, background: 'rgba(255,255,255,0.05)', borderRadius: 6, overflow: 'hidden', position: 'relative' }}>
+                <div style={{
+                  height: '100%',
+                  width: animate ? `${pct}%` : '0%',
+                  background: isWinner
+                    ? `linear-gradient(90deg, ${color}, ${color}BB)`
+                    : `rgba(255,255,255,0.12)`,
+                  borderRadius: 6,
+                  transition: 'width 1.4s cubic-bezier(0.2,0.8,0.2,1)',
+                  boxShadow: isWinner ? `0 0 10px ${glow}` : 'none',
+                }} />
+              </div>
+
+              {/* Value */}
+              <div style={{
+                width: 50, textAlign: 'right', flexShrink: 0,
+                fontFamily: 'Space Mono', fontSize: '0.75rem',
+                color: isWinner ? color : 'rgba(148,163,184,0.60)',
+                fontWeight: isWinner ? 700 : 400,
+              }}>
+                {typeof raw === 'number' ? raw.toFixed(2) : raw}{unit}
+              </div>
+
+              {/* Winner crown */}
+              {isWinner && (
+                <div style={{ width: 16, flexShrink: 0, fontSize: '11px', color: color }}>⟩</div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function WinnerBadge({ benchmark }) {
+  const { clawswarm, single_agent, fixed_team } = benchmark;
+
+  // Compute how much ClawSwarm wins
+  const speedGain = ((single_agent.time_to_complete - clawswarm.time_to_complete) / single_agent.time_to_complete * 100).toFixed(0);
+  const qualityGain = ((clawswarm.quality_score - single_agent.quality_score) / single_agent.quality_score * 100).toFixed(0);
+  const resilienceGain = ((clawswarm.fault_resilience - single_agent.fault_resilience) / (single_agent.fault_resilience || 0.01) * 100).toFixed(0);
+
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, rgba(255,191,0,0.10), rgba(0,229,255,0.06))',
+      border: '1px solid rgba(255,191,0,0.28)',
+      borderRadius: 14, padding: '14px 18px', marginBottom: 20,
+    }}>
+      <div style={{ fontFamily: 'Orbitron', fontSize: '0.78rem', letterSpacing: '0.08em', color: '#ffbf00', marginBottom: 12 }}>
+        ClawSwarm wins ↗
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10 }}>
+        {[
+          { label: 'Faster', val: `${speedGain}%`, icon: <Clock size={13} /> },
+          { label: 'Higher Quality', val: `+${qualityGain}%`, icon: <TrendingUp size={13} /> },
+          { label: 'More Resilient', val: `${resilienceGain}%`, icon: <Shield size={13} /> },
+        ].map(({ label, val, icon }) => (
+          <div key={label} style={{ textAlign: 'center' }}>
+            <div style={{ color: 'rgba(253,230,138,0.80)', marginBottom: 4 }}>{icon}</div>
+            <div style={{ fontFamily: 'Orbitron', fontSize: '1.05rem', color: '#ffbf00', fontWeight: 700, textShadow: '0 0 12px rgba(255,191,0,0.50)' }}>
+              {val}
+            </div>
+            <div style={{ fontSize: '0.65rem', color: 'var(--muted)', marginTop: 2 }}>{label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function BenchmarkPanel({ benchmark }) {
-  // Use local state to trigger animation mount
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
     if (benchmark) {
       setAnimate(false);
-      const timer = setTimeout(() => setAnimate(true), 100);
-      return () => clearTimeout(timer);
+      const t = setTimeout(() => setAnimate(true), 120);
+      return () => clearTimeout(t);
     }
   }, [benchmark]);
 
   if (!benchmark) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', color: '#94a3b8' }}>
-        <p>Complete a task to view benchmark comparison.</p>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 20 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: 18,
+          background: 'rgba(255,191,0,0.08)',
+          border: '1px solid rgba(255,191,0,0.20)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <BarChart3 size={28} color="rgba(255,191,0,0.60)" />
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontFamily: 'Orbitron', fontSize: '0.80rem', color: 'rgba(226,232,240,0.60)', letterSpacing: '0.06em' }}>
+            Benchmark Pending
+          </div>
+          <div style={{ fontSize: '0.75rem', color: 'var(--muted)', marginTop: 6, fontStyle: 'italic' }}>
+            Complete a task to generate comparison data
+          </div>
+        </div>
       </div>
     );
   }
 
   const { clawswarm, single_agent, fixed_team } = benchmark;
 
-  const BarGroup = ({ label, max, val1, val2, val3, reverseColors = false }) => {
-    // For time, lower is better. For others, higher is better.
-    const p1 = (val1 / max) * 100;
-    const p2 = (val2 / max) * 100;
-    const p3 = (val3 / max) * 100;
+  const maxTime = Math.max(clawswarm.time_to_complete, single_agent.time_to_complete, fixed_team.time_to_complete) * 1.05;
 
-    return (
-      <div style={{ marginBottom: '2rem' }}>
-        <h4 style={{ margin: '0 0 10px 0', fontSize: '0.9rem', color: '#e2e8f0' }}>{label}</h4>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          {/* ClawSwarm Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '100px', fontSize: '0.8rem', color: '#ffbf00', fontWeight: 'bold' }}>ClawSwarm</div>
-            <div style={{ flex: 1, height: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ 
-                height: '100%', 
-                width: animate ? `${p1}%` : '0%', 
-                background: reverseColors && p1 > p2 ? '#f59e0b' : '#ffbf00',
-                transition: 'width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)'
-              }}></div>
-            </div>
-            <div style={{ width: '50px', fontSize: '0.8rem', textAlign: 'right' }}>{val1.toFixed(2)}</div>
+  return (
+    <div style={{ padding: '4px 2px', animation: 'fadeSlideIn 0.4s ease' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
+        <div style={{
+          width: 34, height: 34, borderRadius: 10,
+          background: 'rgba(255,191,0,0.10)', border: '1px solid rgba(255,191,0,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <BarChart3 size={16} color="#ffbf00" />
+        </div>
+        <div>
+          <div style={{ fontFamily: 'Orbitron', fontSize: '0.80rem', letterSpacing: '0.08em', color: 'rgba(226,232,240,0.95)' }}>
+            Architecture Comparison
           </div>
-
-          {/* Single Agent Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '100px', fontSize: '0.8rem', color: '#94a3b8' }}>Single Agent</div>
-            <div style={{ flex: 1, height: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ 
-                height: '100%', 
-                width: animate ? `${p2}%` : '0%', 
-                background: '#64748b',
-                transition: 'width 1s ease-out 0.2s'
-              }}></div>
-            </div>
-            <div style={{ width: '50px', fontSize: '0.8rem', textAlign: 'right' }}>{val2.toFixed(2)}</div>
-          </div>
-
-          {/* Fixed Team Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ width: '100px', fontSize: '0.8rem', color: '#94a3b8' }}>Fixed Team</div>
-            <div style={{ flex: 1, height: '16px', background: 'rgba(255,255,255,0.05)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ 
-                height: '100%', 
-                width: animate ? `${p3}%` : '0%', 
-                background: '#64748b',
-                transition: 'width 1s ease-out 0.4s'
-              }}></div>
-            </div>
-            <div style={{ width: '50px', fontSize: '0.8rem', textAlign: 'right' }}>{val3.toFixed(2)}</div>
+          <div style={{ fontSize: '0.70rem', color: 'var(--muted)', marginTop: 2 }}>
+            ClawSwarm vs. Single Agent vs. Fixed Team
           </div>
         </div>
       </div>
-    );
-  };
 
-  // Find maxes for scaling
-  const maxTime = Math.max(clawswarm.time_to_complete, single_agent.time_to_complete, fixed_team.time_to_complete) * 1.1;
+      <WinnerBadge benchmark={benchmark} />
 
-  return (
-    <div style={{ padding: '10px' }}>
-      <h3 style={{ fontFamily: 'Orbitron', color: '#ffbf00', borderBottom: '1px solid rgba(255,191,0,0.3)', paddingBottom: '10px', marginBottom: '20px' }}>
-        Architecture Comparison
-      </h3>
-      
-      <BarGroup 
-        label="Time to Complete (seconds) ↓" 
-        max={maxTime} 
-        val1={clawswarm.time_to_complete} 
-        val2={single_agent.time_to_complete} 
-        val3={fixed_team.time_to_complete}
-        reverseColors={true}
+      <MetricRow
+        label="Time to Complete"
+        icon={<Clock size={14} />}
+        unit="s"
+        values={{ clawswarm: clawswarm.time_to_complete, single_agent: single_agent.time_to_complete, fixed_team: fixed_team.time_to_complete }}
+        max={maxTime}
+        animate={animate}
+        lowerIsBetter
       />
-      
-      <BarGroup 
-        label="Quality Score (0-1) ↑" 
-        max={1.0} 
-        val1={clawswarm.quality_score} 
-        val2={single_agent.quality_score} 
-        val3={fixed_team.quality_score}
+
+      <MetricRow
+        label="Quality Score"
+        icon={<TrendingUp size={14} />}
+        unit=""
+        values={{ clawswarm: clawswarm.quality_score, single_agent: single_agent.quality_score, fixed_team: fixed_team.quality_score }}
+        max={1.0}
+        animate={animate}
       />
-      
-      <BarGroup 
-        label="Fault Resilience (0-1) ↑" 
-        max={1.0} 
-        val1={clawswarm.fault_resilience} 
-        val2={single_agent.fault_resilience} 
-        val3={fixed_team.fault_resilience}
+
+      <MetricRow
+        label="Fault Resilience"
+        icon={<Shield size={14} />}
+        unit=""
+        values={{ clawswarm: clawswarm.fault_resilience, single_agent: single_agent.fault_resilience, fixed_team: fixed_team.fault_resilience }}
+        max={1.0}
+        animate={animate}
       />
     </div>
   );
