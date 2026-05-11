@@ -2,7 +2,7 @@
 
 **ClawSwarm AI is a provably novel multi-agent LLM framework featuring Emergent Role Specialization.** Unlike existing frameworks that require hardcoded roles, ClawSwarm initializes identical "blank slate" agents that organically develop deep specializations purely through competitive task performance and LLM-as-judge scoring. Designed for developers, researchers, and knowledge workers drowning in complex multi-step tasks, ClawSwarm autonomously decomposes problems, routes them via an epsilon-greedy algorithm, and delivers high-quality synthesis with zero-downtime fault tolerance.
 
-Demo video: https://drive.google.com/file/d/1yxHJ0fVAeA8BhFxJxjMnmYHmW2GtPcRj/view?usp=sharing
+Demo video: https://drive.google.com/file/d/1FOs6dy4mVqdfSKMjirRrvbNG-Jpfp0vt/view?usp=sharing
 
 
 ## Problem Statement
