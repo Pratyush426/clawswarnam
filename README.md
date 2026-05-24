@@ -5,6 +5,40 @@
 Demo video: https://drive.google.com/file/d/1FOs6dy4mVqdfSKMjirRrvbNG-Jpfp0vt/view?usp=sharing
 
 
+## ClawSwarm × NANDA Integration
+
+Adapts ClawSwarm AI's epsilon-greedy multi-agent router to register as a discoverable agent on the MIT NANDA Index.
+
+### What this does
+- **NANDA Adapter Wrapper:** Wraps ClawSwarm's core epsilon-greedy task routing and processing logic in the `NANDA` adapter in one line.
+- **Live Capability Reporting:** Each agent's Exponential Moving Average (EMA) skill score is reported live via AgentFacts.
+- **External Discoverability:** Makes ClawSwarm's internal capability and specialty state externally discoverable on the NANDA internet-of-agents network.
+
+### Why this matters for NANDA
+ClawSwarm demonstrates a new pattern: agents that do not just exist on the network, but **honestly self-report their real-time capability scores**, enabling smarter, data-driven cross-framework routing decisions across the MIT NANDA Index.
+
+### How to Run NANDA Integration
+
+1. **Install the NANDA Adapter:**
+   ```bash
+   pip install nanda-adapter
+   ```
+
+2. **Set Environment Variables:**
+   ```bash
+   export ANTHROPIC_API_KEY="your-anthropic-api-key"
+   export DOMAIN_NAME="your-registered-domain.com"
+   ```
+
+3. **Run the NANDA Adapter Agent:**
+   ```bash
+   python clawswarm_nanda.py
+   ```
+
+4. **Enroll:**
+   Check the output logs (`out.log` or console) to grab your enrollment link. Open the link in a browser to register your ClawSwarm agent on the public NANDA index.
+
+
 ## Problem Statement
 
 Knowledge workers and developers face increasingly complex tasks that require multiple cognitive steps (e.g., researching a topic, structuring a document, writing code, reviewing it, and synthesizing a final output). While single LLMs struggle with context limits and hallucination on complex tasks, multi-agent frameworks offer a solution. However, current industry standards (CrewAI, AutoGen, LangGraph) have a fatal flaw: **they require predefined roles at initialization.** 
